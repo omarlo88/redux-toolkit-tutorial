@@ -1,12 +1,71 @@
-import { createSlice } from '@reduxjs/toolkit';
-import cartItems from '../../cartItems';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { closeModal, openModal } from '../modal/modalSlice';
 
 const initialState = {
-  cartItems: cartItems,
+  // cartItems: cartItems,
+  cartItems: [],
   amount: 0,
   total: 0,
   isLoading: true,
 };
+
+const url = 'https://course-api.com/react-useReducer-cart-project';
+
+/*No param
+export const getCartItems = createAsyncThunk('cart/getCartItems', async () => {
+  /* return fetch(url)
+    .then((response) => response.json())
+    .catch((err) => console.log(err)); */
+/*
+  try {
+    const resp = await axios(url);
+    console.log(resp.data);
+    return resp.data;
+  } catch (error) {}
+});*/
+
+// With param is the first param
+/*
+export const getCartItems = createAsyncThunk(
+  'cart/getCartItems',
+  async (name) => {
+    /* return fetch(url)
+    .then((response) => response.json())
+    .catch((err) => console.log(err)); */
+/*
+    try {
+      console.log(name);
+
+      const resp = await axios(url);
+      return resp.data;
+    } catch (error) {}
+  }
+);*/
+
+// can access also to thunkAPI param
+export const getCartItems = createAsyncThunk(
+  'cart/getCartItems',
+  async (name, thunkAPI) => {
+    /* return fetch(url)
+    .then((response) => response.json())
+    .catch((err) => console.log(err)); */
+
+    try {
+      // console.log(name);
+      // console.log(thunkAPI);
+      // console.log(thunkAPI.getState());
+
+      // thunkAPI.dispatch(openModal());
+      // thunkAPI.dispatch(closeModal());
+
+      const resp = await axios(url);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Error, check your url');
+    }
+  }
+);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -37,6 +96,34 @@ const cartSlice = createSlice({
       state.amount = amount;
       state.total = total;
     },
+  },
+  /* extraReducers: {
+    [getCartItems.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getCartItems.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.cartItems = action.payload;
+      console.log(action);
+    },
+    [getCartItems.rejected]: (state) => {
+      state.isLoading = false;
+    },
+  }, */
+  extraReducers: (builder) => {
+    builder
+      .addCase(getCartItems.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCartItems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.cartItems = action.payload;
+        console.log(action);
+      })
+      .addCase(getCartItems.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        console.log(payload);
+      });
   },
 });
 
