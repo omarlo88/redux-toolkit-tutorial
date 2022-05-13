@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { clerCart } from '../features/cart/cartSlice';
+import { clearCart } from '../features/cart/cartSlice';
 import { closeModal } from '../features/modal/modalSlice';
 
 const Modal = () => {
@@ -14,7 +14,7 @@ const Modal = () => {
           <button
             className='btn confirm-btn'
             onClick={() => {
-              dispatch(clerCart());
+              dispatch(clearCart());
               dispatch(closeModal());
             }}
           >

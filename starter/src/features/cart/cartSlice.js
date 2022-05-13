@@ -71,7 +71,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    clerCart: (state) => {
+    clearCart: (state) => {
       state.cartItems = [];
     },
     removeItem: (state, action) => {
@@ -130,7 +130,7 @@ const cartSlice = createSlice({
 // console.log(cartSlice);
 
 export const {
-  clerCart,
+  clearCart,
   removeItem,
   increase,
   decrease,

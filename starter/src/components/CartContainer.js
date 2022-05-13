@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CartItem from './CartItem';
-import { clerCart, calculateTotals } from '../features/cart/cartSlice';
+import { clearCart, calculateTotals } from '../features/cart/cartSlice';
 import { openModal } from '../features/modal/modalSlice';
 
 const CartContainer = () => {
